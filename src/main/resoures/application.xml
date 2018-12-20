@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/aop
+        ">
+
+    <context:component-scan base-package="com.ssh.action"></context:component-scan>
+    <context:component-scan base-package="com.ssh.service"></context:component-scan>
+    <context:component-scan base-package="com.ssh.dao"></context:component-scan>
+
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:jdbc.properties"/>
+    </bean>
+    <!-- data connection setting -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${mysql.driverClassName}"></property>
+        <property name="jdbcUrl" value="${mysql.url}"></property>
+        <property name="user" value="${mysql.username}"></property>
+        <property name="password" value="${mysql.password}"></property>
+        <!-- 设置数据库连接池的最大连接数 -->
+        <property name="maxPoolSize">
+            <value>50</value>
+        </property>
+        <!-- 设置数据库连接池的最小连接数 -->
+        <property name="minPoolSize">
+            <value>5</value>
+        </property>
+        <!-- 设置数据库连接池的初始化连接数 -->
+        <property name="initialPoolSize">
+            <value>5</value>
+        </property>
+        <!-- 设置数据库连接池的连接最大空闲时间 -->
+        <property name="maxIdleTime">
+            <value>20</value>
+        </property>
+        <!-- c3p0缓存Statement的数量数 -->
+        <property name="maxStatements">
+            <value>50</value>
+        </property>
+        <!-- 当连接池里面的连接用完的时候,C3P0一下获取新的连接数 -->
+        <property name="acquireIncrement">
+            <value>20</value>
+        </property>
+
+    </bean>
+
+    <!-- hibernate 管理-->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <!-- 引用上面设置的数据源 -->
+        <property name="dataSource">
+            <ref bean="dataSource"/>
+        </property>
+
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.autoReconnect">true</prop>
+                <prop key="hibernate.connection.autocommit">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <!-- 解决session关闭问题 -->
+                <prop key="hibernate.enable_lazy_load_no_trans">true</prop>
+                <!-- spring 和 hibernate 整合的时候默认就是使用线程的，下面这一行不用写，写了反而要报错，此外 sessionFaction，不能使用openSession
+                 既不能保存数据到数据库，还不能实现事务功能
+                 -->
+                <!--<prop key="current_session_context_class">thread</prop>-->
+
+                <prop key="hibernate.max_fetch_depth">3</prop>
+                <prop key="hibernate.connection.url" >jdbc:mysql://localhost:3306/test</prop>
+                <prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
+            </props>
+
+        </property>
+
+        <!-- 包扫描的方式加载注解类 -->
+        <property name="packagesToScan">
+            <list>
+                <value>com.ssh.entity</value>
+            </list>
+        </property>
+        <property name="mappingLocations">
+            <list>
+                <value>classpath:com/ssh/entity/Emp.hbm.xml</value>
+                <value>classpath:com/ssh/entity/Dept.hbm.xml</value>
+
+            </list>
+        </property>
+    </bean>
+
+    <!-- 用注解来实现事物管理 -->
+    <bean id="txManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <tx:annotation-driven transaction-manager="txManager"/>
+
+    <!--<tx:advice id="txAdvice" transaction-manager="txManager">-->
+    <!--<tx:attributes>-->
+    <!--<tx:method name="*" read-only="false"/>-->
+    <!--</tx:attributes>-->
+    <!--</tx:advice>-->
+
+    <!--<aop:config>-->
+    <!--<aop:pointcut id="pt" expression="execution(* com.ssh.service.impl.*.*(..))"/>-->
+    <!--<aop:advisor advice-ref="txAdvice" pointcut-ref="pt"/>-->
+    <!--</aop:config>-->
+</beans>
