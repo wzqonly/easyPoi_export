@@ -3,19 +3,15 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/tx
        http://www.springframework.org/schema/tx/spring-tx.xsd
-       http://www.springframework.org/schema/aop
         ">
 
-    <context:component-scan base-package="com.ssh.action"></context:component-scan>
-    <context:component-scan base-package="com.ssh.service"></context:component-scan>
-    <context:component-scan base-package="com.ssh.dao"></context:component-scan>
+    <context:component-scan base-package="com.ssh"></context:component-scan>
 
     <bean id="propertyConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -55,7 +51,7 @@
     </bean>
 
     <!-- hibernate 管理-->
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <!-- 引用上面设置的数据源 -->
         <property name="dataSource">
             <ref bean="dataSource"/>
@@ -93,13 +89,12 @@
             <list>
                 <value>classpath:com/ssh/entity/Emp.hbm.xml</value>
                 <value>classpath:com/ssh/entity/Dept.hbm.xml</value>
-
             </list>
         </property>
     </bean>
 
     <!-- 用注解来实现事物管理 -->
-    <bean id="txManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+    <bean id="txManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
     <tx:annotation-driven transaction-manager="txManager"/>

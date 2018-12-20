@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by wu on 2018/12/20.
  */
-@Repository
+@Repository("deptDao")
 public class DeptDaoImpl implements IDeptDao {
 
     @Resource(name="sessionFactory")

@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by wu on 2018/12/20.
  */
-@Service
+@Service("exportService")
 public class ExportServiceImpl implements IExportService {
 
     @Resource

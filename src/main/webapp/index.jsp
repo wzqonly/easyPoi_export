@@ -11,6 +11,6 @@
     <title>$Title$</title>
   </head>
   <body>
-  $END$
+  <a href="/exportAction_export">click me</a>
   </body>
 </html>
