@@ -149,6 +149,12 @@
             <artifactId>easypoi-annotation</artifactId>
             <version>3.3.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.8.1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -164,6 +170,14 @@
             <!--项目访问的根目录url:localhost:8090/项目名称/addUser.action-->
             <path>/</path>
             </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
             </plugin>
         </plugins>
 

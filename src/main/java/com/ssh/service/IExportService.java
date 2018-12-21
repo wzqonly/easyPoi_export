@@ -1,6 +1,6 @@
 package com.ssh.service;
 
-import com.ssh.utils.ExportUtil;
+import com.ssh.utils.DeptUtil;
 import java.util.List;
 
 /**
@@ -8,5 +8,5 @@ import java.util.List;
  */
 public interface IExportService {
 
-    List<ExportUtil> exportList();
+    List<DeptUtil> exportList();
 }

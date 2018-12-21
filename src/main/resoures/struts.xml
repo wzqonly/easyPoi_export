@@ -11,7 +11,13 @@
 
     <package name="export" extends="struts-default" namespace="/">
         <action name="exportAction_*" class="com.ssh.action.ExportAction" method="{1}">
-            <result name="success">/index.jsp</result>
+            <!--<result name="success">/index.jsp</result>-->
+            <result type="stream">
+                <param name="contentType">application/vnd.ms-excel</param>
+                <param name="inputName">excelStream</param>
+                <param name="contentDisposition">attachment;filename="${fileName}.xls"</param>
+                <param name="bufferSize">1024</param>
+            </result>
         </action>
     </package>
 </struts>
