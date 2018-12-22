@@ -67,7 +67,7 @@ public class ExportAction {
             sheetsList.add(empExportMap);
             // 执行方法
             workBook = ExcelExportUtil.exportExcel(sheetsList, ExcelType.HSSF);
-            fileName = URLEncoder.encode("员工报表导出" + ".xls", "UTF-8");
+            fileName = URLEncoder.encode("员工报表导出", "UTF-8");
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             workBook.write(outputStream);
             outputStream.flush();
