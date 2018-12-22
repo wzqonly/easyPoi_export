@@ -39,6 +39,7 @@ public class ExportServiceImpl implements IExportService {
                         a.getEmps().stream().forEach(
                                 b -> {
                                     EmpUtil empUtil = new EmpUtil();
+                                    empUtil.setId((int) (Math.random() * 90 + 10));
                                     empUtil.setAge(b.getAge());
                                     empUtil.setEmpName(b.getEmpName());
                                     empUtil.setHiredate(new Date());

@@ -21,7 +21,7 @@ public class DeptDaoImpl implements IDeptDao {
 
     public List<Dept> getList() {
         Session session = sessionFactory.getCurrentSession();
-        List<Dept> list = session.createQuery("select d from Dept d left join d.emps").list();
+        List<Dept> list = session.createQuery("select d from Dept d left join d.emps order by d asc").list();
         return list;
     }
 }

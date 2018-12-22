@@ -40,7 +40,7 @@ public class ExportAction {
             List<DeptUtil> exportList = exportService.exportList();
             System.err.println(JSONArray.toJSONString(exportList));
 
-           /* // 创建参数对象（用来设定excel得sheet得内容等信息）
+            // 创建参数对象（用来设定excel得sheet得内容等信息）
             ExportParams deptExportParams = new ExportParams();
             // 设置sheet得名称
             deptExportParams.setSheetName("员工报表1");
@@ -53,24 +53,21 @@ public class ExportAction {
             // sheet中要填充得数据
             deptExportMap.put("data", exportList);
 
-            List<DeptUtil> exportList1 = new ArrayList<>();
             ExportParams empExportParams = new ExportParams();
             empExportParams.setSheetName("员工报表2");
             // 创建sheet2使用得map
             Map<String, Object> empExportMap = new HashMap<>();
             empExportMap.put("title", empExportParams);
             empExportMap.put("entity", DeptUtil.class);
-            empExportMap.put("data", exportList1);
+            empExportMap.put("data", exportList);
 
             // 将sheet1、sheet2、sheet3使用得map进行包装
             List<Map<String, Object>> sheetsList = new ArrayList<>();
             sheetsList.add(deptExportMap);
             sheetsList.add(empExportMap);
             // 执行方法
-            workBook = ExcelExportUtil.exportExcel(sheetsList, ExcelType.HSSF);*/
-
-            workBook = ExcelExportUtil.exportExcel(new ExportParams(), DeptUtil.class, exportList);
-            fileName = URLEncoder.encode("员工报表导出_" + ".xls", "UTF-8");
+            workBook = ExcelExportUtil.exportExcel(sheetsList, ExcelType.HSSF);
+            fileName = URLEncoder.encode("员工报表导出" + ".xls", "UTF-8");
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             workBook.write(outputStream);
             outputStream.flush();
